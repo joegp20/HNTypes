@@ -4,7 +4,7 @@ Typescript compatible enums, and interfaces from Phase 20 for proptech apps
 # How to import
 import { OfferVersion, NetProceeds, LineItem, FeeType } from "https://raw.githubusercontent.com/joegp20/HNTypes/main/hntypes.ts";
 
-# Example usage
+# Example usage for supabase edge function
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { OfferVersion, NetProceeds, LineItem, FeeType } from "https://raw.githubusercontent.com/joegp20/HNTypes/main/hntypes.ts";
@@ -71,7 +71,7 @@ serve(async (req) => {
   }
 });
 
-# Some more specific examples
+# Some more specific supabase examples
 // Example 1: Get specific fee type
 const transferTaxes = offerVersion.net_proceeds?.line_items.filter(
   item => item.fee_type === FeeType.TRANSFER_TAX
@@ -93,3 +93,12 @@ const commissions = offerVersion.net_proceeds?.line_items.filter(
   item => item.fee_type === FeeType.LISTING_COMMISSION || 
           item.fee_type === FeeType.BUYER_COMMISSION
 );
+
+# For non-supabase (e.g. React native) clients use NPM to load
+Install directly from GitHub in your React Native app:
+bashCopynpm install joegp20/HNTypes
+# or
+yarn add joegp20/HNTypes
+
+Import in your React Native code:
+typescriptCopyimport { OfferVersion, NetProceeds, LineItem, FeeType } from '@joegp20/hntypes';

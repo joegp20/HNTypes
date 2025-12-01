@@ -22,6 +22,7 @@ export enum CalculationType {
   CALCULATED = 'CALCULATED',
 }
 
+// Subtype enables different gov't levels to collect the same fee types
 export enum FeeSubtype {
   COUNTY = 'county',
   STATE = 'state',

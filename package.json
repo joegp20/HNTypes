@@ -1,0 +1,14 @@
+{
+  "name": "@joegp20/hntypes",
+  "version": "1.0.0",
+  "description": "TypeScript types for HomeNavigator",
+  "main": "hntypes.ts",
+  "types": "hntypes.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joegp20/HNTypes.git"
+  },
+  "keywords": ["typescript", "types"],
+  "author": "joegp20",
+  "license": "MIT"
+}

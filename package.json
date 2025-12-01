@@ -1,6 +1,6 @@
 {
   "name": "@joegp20/hntypes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeScript types for HomeNavigator",
   "main": "hntypes.ts",
   "types": "hntypes.ts",

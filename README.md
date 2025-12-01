@@ -95,6 +95,9 @@ const commissions = offerVersion.net_proceeds?.line_items.filter(
 );
 
 # For non-supabase (e.g. React native) clients use NPM to load
+There is a package.json in the repo to facilitate NPM use
+ - Note for Collaborators, any updates should be reflected with a minor number change in package.json
+
 Install directly from GitHub in your React Native app:
 bashCopynpm install joegp20/HNTypes
 # or

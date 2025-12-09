@@ -101,3 +101,30 @@ export interface OfferVersion {
   buyer_agent: string | null;
   respond_by: string | null;
 }
+
+interface OfferScoringParams {
+    id: number;
+    created_at: string;
+    property_id: number;
+    cat_pr_weight: number;
+    updated_at: string;
+    cat_cc_weight: number;
+    cat_cs_weight: number;
+    cat_dc_weight: number;
+    cat_dt_weight: number;
+    cat_ba_weight: number;
+    deal_strategy: number;
+    user_selected_salesstrategy: boolean;
+    min_offer_price: number;
+    max_transaction_costs: number;
+    min_downpayment: number;
+    min_earnestmoney: number;
+    max_emddaystodeliver: number;
+    //max_buyerasks_costs: number;
+    //max_buyerasks_time_delay: number;
+    pref_settlement_begin_date: string;
+    pref_settlement_end_date: string;
+    //allowable_contingencies: string[];
+    //min_probability_to_close: number;
+    //max_probability_to_delay: number;
+}

@@ -128,3 +128,39 @@ interface OfferScoringParams {
     //min_probability_to_close: number;
     //max_probability_to_delay: number;
 }
+
+interface PropertyDetails {
+  id?: number;
+  created_at?: string;
+  address: string;
+  seller_id?: string;
+  latitude?: number;
+  longitude?: number;
+  community?: string;
+  plat_map?: string;
+  asking_price?: number;
+  goal_price?: number;
+  sale_status?: number;
+  agent_id?: string;
+  mortgage_remaining?: number;
+  state?: string;
+  county?: string;
+  adjusted_cost_basis?: number;
+  tax_filing_status?: string;
+  updated_at?: string;
+  agxfertax_applies?: boolean;
+  assessland_value?: number;
+  assessland_area?: number;
+}
+
+interface FindUnregisteredPropertyInfo {
+  matchedProperty: PropertyDetails;
+  url: string | null;
+}
+
+enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_INFO = 2, PROPERTY_NOT_IN_HN_INFO_NOT_FOUND = 3 }
+
+interface FindUnregisteredPropertyResponse {
+  result: StatusCodes;
+  data: FindUnregisteredPropertyInfo;
+}

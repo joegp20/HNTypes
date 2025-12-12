@@ -150,6 +150,14 @@ export interface OfferCharacterization {
   numstars: number | null
 }
 
+export interface RealtimeOfferScoringPayload {
+  type: 'INSERT' | 'UPDATE' | 'DELETE'
+  table: string;
+  record: OfferCharacterization;
+  schema: string;
+  old_record: OfferCharacterization | null;
+}
+
 export interface PropertyDetails {
   id?: number;
   created_at?: string;
@@ -184,12 +192,4 @@ export enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_IN
 export interface FindUnregisteredPropertyResponse {
   result: StatusCodes;
   data: FindUnregisteredPropertyInfo;
-}
-
-export interface RealtimeOfferScoringPayload {
-  type: 'INSERT' | 'UPDATE' | 'DELETE'
-  table: string;
-  record: OfferCharacterization;
-  schema: string;
-  old_record: OfferCharacterization | null;
 }

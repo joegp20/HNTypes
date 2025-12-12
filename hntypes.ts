@@ -185,3 +185,11 @@ export interface FindUnregisteredPropertyResponse {
   result: StatusCodes;
   data: FindUnregisteredPropertyInfo;
 }
+
+export interface RealtimeOfferScoringPayload {
+  type: 'INSERT' | 'UPDATE' | 'DELETE'
+  table: string;
+  record: OfferCharacterization;
+  schema: string;
+  old_record: OfferCharacterization | null;
+}

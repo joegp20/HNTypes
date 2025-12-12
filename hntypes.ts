@@ -129,7 +129,7 @@ interface OfferScoringParams {
     //max_probability_to_delay: number;
 }
 
-interface PropertyDetails {
+export interface PropertyDetails {
   id?: number;
   created_at?: string;
   address: string;
@@ -153,14 +153,14 @@ interface PropertyDetails {
   assessland_area?: number;
 }
 
-interface FindUnregisteredPropertyInfo {
+export interface FindUnregisteredPropertyInfo {
   matchedProperty: PropertyDetails;
   url: string | null;
 }
 
-enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_INFO = 2, PROPERTY_NOT_IN_HN_INFO_NOT_FOUND = 3 }
+export enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_INFO = 2, PROPERTY_NOT_IN_HN_INFO_NOT_FOUND = 3 }
 
-interface FindUnregisteredPropertyResponse {
+export interface FindUnregisteredPropertyResponse {
   result: StatusCodes;
   data: FindUnregisteredPropertyInfo;
 }

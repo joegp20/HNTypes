@@ -129,6 +129,27 @@ interface OfferScoringParams {
     //max_probability_to_delay: number;
 }
 
+export interface OfferCharacterization {
+  offer_version_id: number
+  created_at: string
+  updated_at: string
+  dpma_pct: number | null
+  ofra_pctask: number | null
+  ofra_pctgoal: number | null
+  finp_score: number | null
+  cat_pr_score: number | null
+  cat_cc_score: number | null
+  earnest_pct: number | null
+  offer_id: number | null
+  property_id: number | null
+  earnest_delivery_days_norm: number | null
+  cat_cs_score: number | null
+  cat_dc_score: number | null
+  cat_dt_score: number | null
+  cat_ba_score: number | null
+  numstars: number | null
+}
+
 export interface PropertyDetails {
   id?: number;
   created_at?: string;

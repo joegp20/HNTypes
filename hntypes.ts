@@ -151,7 +151,7 @@ export interface OfferCharacterization {
 }
 
 export interface RealtimeOfferScoringPayload {
-  type: 'INSERT' | 'UPDATE' | 'DELETE'
+  type: 'INSERT' | 'UPDATE' | 'DELETE';
   table: string;
   record: OfferCharacterization;
   schema: string;

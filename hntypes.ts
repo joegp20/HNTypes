@@ -193,3 +193,13 @@ export interface FindUnregisteredPropertyResponse {
   result: StatusCodes;
   data: FindUnregisteredPropertyInfo;
 }
+
+// Line item interface
+export interface RealtimeInspectionPayload {
+  id: number;
+  property_id: number;
+  created_at?: string;
+  updated_at?: string;
+  home_inspection_file_id: string;
+  llm_notes: Record<string, any> | null;
+}

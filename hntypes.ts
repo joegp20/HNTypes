@@ -195,11 +195,19 @@ export interface FindUnregisteredPropertyResponse {
 }
 
 // Line item interface
-export interface RealtimeInspectionPayload {
+export interface RecordOfInspection {
   id: number;
   property_id: number;
   created_at?: string;
   updated_at?: string;
   home_inspection_file_id: string;
   llm_notes: Record<string, any> | null;
+}
+
+export interface RealtimeInspectionPayload {
+  type: 'INSERT' | 'UPDATE' | 'DELETE';
+  table: string;
+  record: RecordOfInspection;
+  schema: string;
+  old_record: RecordOfInspection | null;
 }

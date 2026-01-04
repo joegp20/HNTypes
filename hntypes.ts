@@ -211,3 +211,12 @@ export interface RealtimeInspectionPayload {
   schema: string;
   old_record: RecordOfInspection | null;
 }
+
+export interface PropertyAddress {
+  address_fullstreet: string;
+  address_city: string;
+  address_state: string;
+  address_county: string;
+  address_zip: string;
+  address_label: string
+}

@@ -237,16 +237,46 @@ export interface PropertyExistsResponse {
  * @param minSimilarity - Minimum street address similarity (0.0 to 1.0)
  * @returns Property ID if found, null otherwise
  */
+
+import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { PropertyAddress } from './types.ts';
+
+/**
+ * Check if a property exists in the database
+ * Validates, normalizes, and searches for matching property
+ * @param supabase - Supabase client instance
+ * @param address - Property address to search for
+ * @param minSimilarity - Minimum street address similarity (0.0 to 1.0)
+ * @returns Property ID if found, null otherwise
+ * @throws Error if address validation fails or database error occurs
+ */
 export async function propertyExists(
   supabase: SupabaseClient,
-  address: PropertyAddress,
+  address: Partial<PropertyAddress>,
   minSimilarity: number = 0.85
 ): Promise<number | null> {
+  // Validate required fields
+  const required = ['address_fullstreet', 'address_city', 'address_state', 'address_zipcode'];
+  const missing = required.filter(field => !address[field as keyof PropertyAddress]);
+
+  if (missing.length > 0) {
+    throw new Error(`Missing required address fields: ${missing.join(', ')}`);
+  }
+
+  // Normalize address fields
+  const normalizedAddress = {
+    address_fullstreet: address.address_fullstreet!.trim().toUpperCase(),
+    address_city: address.address_city!.trim().toUpperCase(),
+    address_state: address.address_state!.trim().toUpperCase(),
+    address_zipcode: address.address_zipcode!.trim(),
+  };
+
+  // Query database
   const { data, error } = await supabase.rpc('find_exact_property_id', {
-    p_fullstreet: address.address_fullstreet,
-    p_city: address.address_city,
-    p_state: address.address_state,
-    p_zipcode: address.address_zipcode,
+    p_fullstreet: normalizedAddress.address_fullstreet,
+    p_city: normalizedAddress.address_city,
+    p_state: normalizedAddress.address_state,
+    p_zipcode: normalizedAddress.address_zipcode,
     p_min_street_similarity: minSimilarity,
   });
 
@@ -256,31 +286,4 @@ export async function propertyExists(
   }
 
   return data;
-}
-
-/**
- * Validate property address has required fields
- */
-export function validatePropertyAddress(address: Partial<PropertyAddress>): PropertyAddress {
-  const required = ['address_fullstreet', 'address_city', 'address_state', 'address_zipcode'];
-  const missing = required.filter(field => !address[field as keyof PropertyAddress]);
-
-  if (missing.length > 0) {
-    throw new Error(`Missing required address fields: ${missing.join(', ')}`);
-  }
-
-  return address as PropertyAddress;
-}
-
-/**
- * Normalize address for consistent comparison
- */
-export function normalizeAddress(address: PropertyAddress): PropertyAddress {
-  return {
-    ...address,
-    address_fullstreet: address.address_fullstreet.trim().toUpperCase(),
-    address_city: address.address_city.trim().toUpperCase(),
-    address_state: address.address_state.trim().toUpperCase(),
-    address_zipcode: address.address_zipcode.trim(),
-  };
 }

@@ -212,11 +212,12 @@ export interface RealtimeInspectionPayload {
   old_record: RecordOfInspection | null;
 }
 
+// All fields except address_label are upper case.  address_label is title case (initial caps)
 export interface PropertyAddress {
   address_fullstreet: string;
   address_city: string;
+  address_county: string;  
   address_state: string;
-  address_county: string;
-  address_zip: string;
+  address_zipcode: string;
   address_label: string
 }

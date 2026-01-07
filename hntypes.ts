@@ -231,15 +231,6 @@ export interface PropertyExistsResponse {
 }
 
 /**
- * Check if a property exists in the HN database
- * @param supabase - Supabase client instance
- * @param address - Property address to search for
- * @param minSimilarity - Minimum street address similarity (0.0 to 1.0)
- * @returns Property ID if found, null otherwise
- */
-
-
-/**
  * Check if a property exists in the database
  * Validates, normalizes, and searches for matching property
  * @param supabase - Supabase client instance

@@ -222,10 +222,65 @@ export interface PropertyAddress {
   address_label: string
 }
 
-// pg_trgm extension based similarity search for HN PROPERTY_FOR_SALE - return 
+// pg_trgm extension based similarity() search for HN PROPERTY_FOR_SALE - return 
 export interface PropertyExistsResponse {
   exists: boolean;
   propertyId: number | null;
   message: string;
   searchedAddress?: PropertyAddress;
+}
+
+/**
+ * Check if a property exists in the HN database
+ * @param supabase - Supabase client instance
+ * @param address - Property address to search for
+ * @param minSimilarity - Minimum street address similarity (0.0 to 1.0)
+ * @returns Property ID if found, null otherwise
+ */
+export async function propertyExists(
+  supabase: SupabaseClient,
+  address: PropertyAddress,
+  minSimilarity: number = 0.85
+): Promise<number | null> {
+  const { data, error } = await supabase.rpc('find_exact_property_id', {
+    p_fullstreet: address.address_fullstreet,
+    p_city: address.address_city,
+    p_state: address.address_state,
+    p_zipcode: address.address_zipcode,
+    p_min_street_similarity: minSimilarity,
+  });
+
+  if (error) {
+    console.error('Error checking property existence:', error);
+    throw new Error(`Database error: ${error.message}`);
+  }
+
+  return data;
+}
+
+/**
+ * Validate property address has required fields
+ */
+export function validatePropertyAddress(address: Partial<PropertyAddress>): PropertyAddress {
+  const required = ['address_fullstreet', 'address_city', 'address_state', 'address_zipcode'];
+  const missing = required.filter(field => !address[field as keyof PropertyAddress]);
+
+  if (missing.length > 0) {
+    throw new Error(`Missing required address fields: ${missing.join(', ')}`);
+  }
+
+  return address as PropertyAddress;
+}
+
+/**
+ * Normalize address for consistent comparison
+ */
+export function normalizeAddress(address: PropertyAddress): PropertyAddress {
+  return {
+    ...address,
+    address_fullstreet: address.address_fullstreet.trim().toUpperCase(),
+    address_city: address.address_city.trim().toUpperCase(),
+    address_state: address.address_state.trim().toUpperCase(),
+    address_zipcode: address.address_zipcode.trim(),
+  };
 }

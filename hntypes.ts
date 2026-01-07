@@ -238,8 +238,6 @@ export interface PropertyExistsResponse {
  * @returns Property ID if found, null otherwise
  */
 
-import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { PropertyAddress } from './types.ts';
 
 /**
  * Check if a property exists in the database

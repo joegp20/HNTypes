@@ -222,15 +222,10 @@ export interface PropertyAddress {
   address_label: string
 }
 
-// pg_trgm extension based similarity search for HN PROPERTY_FOR_SALE
-export interface PropertyMatchResult {
-  id: number;
-  address: string;
-  fullstreet: string;
-  city: string;
-  state: string;
-  zipcode: string;
-  street_similarity: number;
-  is_perfect_match: boolean;
-  match_found: boolean;
+// pg_trgm extension based similarity search for HN PROPERTY_FOR_SALE - return 
+export interface PropertyExistsResponse {
+  exists: boolean;
+  propertyId: number | null;
+  message: string;
+  searchedAddress?: PropertyAddress;
 }

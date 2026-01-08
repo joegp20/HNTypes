@@ -180,6 +180,10 @@ export interface PropertyDetails {
   agxfertax_applies?: boolean;
   assessland_value?: number;
   assessland_area?: number;
+  sourced_taxassessor_id?: number;
+  fullstreet?: string;
+  city?: string;
+  zipcode?: string
 }
 
 export interface FindUnregisteredPropertyInfo {

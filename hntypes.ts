@@ -183,7 +183,7 @@ export interface PropertyDetails {
   sourced_taxassessor_id?: number | null;
   fullstreet?: string;
   city?: string;
-  zipcode?: string
+  zipcode?: string;
 }
 
 export interface FindUnregisteredPropertyInfo {

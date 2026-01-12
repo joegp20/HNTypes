@@ -159,7 +159,7 @@ export interface RealtimeOfferScoringPayload {
 }
 
 export interface PropertyDetails {
-  id?: number;
+  id?: number | null;
   created_at?: string;
   address: string;
   seller_id?: string;

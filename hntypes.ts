@@ -180,7 +180,7 @@ export interface PropertyDetails {
   agxfertax_applies?: boolean;
   assessland_value?: number;
   assessland_area?: number;
-  sourced_taxassessor_id?: number;
+  sourced_taxassessor_id?: number | null;
   fullstreet?: string;
   city?: string;
   zipcode?: string

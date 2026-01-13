@@ -186,7 +186,12 @@ export interface PropertyDetails {
   adjusted_cost_basis?: number;
   tax_filing_status?: string;
   // Property characteristics
+  year_built?: string;
+  numbeds?: number;
+  numbaths?: number;
   agxfertax_applies?: boolean;
+  assess_value?: number;
+  market_value?: number;
   assessland_value?: number;
   assessland_area?: number;
 }

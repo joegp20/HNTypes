@@ -178,7 +178,7 @@ export interface PropertyDetails {
   // Property ownership/representation
   seller_id?: string;
   agent_id?: string;
-  // Sales information
+  // Sales and net proceeds basis information
   asking_price?: number;
   goal_price?: number;
   sale_status?: number;

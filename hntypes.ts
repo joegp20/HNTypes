@@ -187,13 +187,15 @@ export interface PropertyDetails {
   tax_filing_status?: string;
   // Property characteristics
   year_built?: string;
-  numbeds?: number;
-  numbaths?: number;
-  agxfertax_applies?: boolean;
-  assess_value?: number;
-  market_value?: number;
-  assessland_value?: number;
+  bedrooms_count?: number;
+  bath_count?: number;
+  area_building?: number;
   assessland_area?: number;
+  tax_year_assessed?: string;
+  tax_assessed_value_total?: number;
+  tax_market_value_total?: number;
+  assessland_value?: number;
+  agxfertax_applies?: boolean;
 }
 
 export interface FindUnregisteredPropertyInfo {

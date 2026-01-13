@@ -172,6 +172,7 @@ export interface PropertyDetails {
   county?: string;
   zipcode?: string;
   community?: string;
+  parcel_number_raw?: string;
   latitude?: number;
   longitude?: number;
   plat_map?: string;

@@ -159,31 +159,36 @@ export interface RealtimeOfferScoringPayload {
 }
 
 export interface PropertyDetails {
+  // Property/property record identification
   id?: number | null;
+  sourced_taxassessor_id?: number | null;
   created_at?: string;
+  updated_at?: string;
+  // Address and location fields
   address: string;
-  seller_id?: string;
+  fullstreet?: string;
+  city?: string;
+  state?: string;
+  county?: string;
+  zipcode?: string;
+  community?: string;
   latitude?: number;
   longitude?: number;
-  community?: string;
   plat_map?: string;
+  // Property ownership/representation
+  seller_id?: string;
+  agent_id?: string;
+  // Sales information
   asking_price?: number;
   goal_price?: number;
   sale_status?: number;
-  agent_id?: string;
   mortgage_remaining?: number;
-  state?: string;
-  county?: string;
   adjusted_cost_basis?: number;
   tax_filing_status?: string;
-  updated_at?: string;
+  // Property characteristics
   agxfertax_applies?: boolean;
   assessland_value?: number;
   assessland_area?: number;
-  sourced_taxassessor_id?: number | null;
-  fullstreet?: string;
-  city?: string;
-  zipcode?: string;
 }
 
 export interface FindUnregisteredPropertyInfo {

@@ -190,6 +190,7 @@ export interface PropertyDetails {
   year_built?: string;
   bedrooms_count?: number;
   bath_count?: number;
+  bath_partial_count?: number;
   area_building?: number;
   assessland_area?: number;
   tax_year_assessed?: string;

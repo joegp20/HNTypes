@@ -124,7 +124,7 @@ interface OfferScoringParams {
     //max_buyerasks_time_delay: number;
     pref_settlement_begin_date: string;
     pref_settlement_end_date: string;
-    //allowable_contingencies: string[];
+    //highpenalty_contingencies: string[];
     //min_probability_to_close: number;
     //max_probability_to_delay: number;
 }

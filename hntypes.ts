@@ -179,6 +179,7 @@ export interface PropertyDetails {
   // Property ownership/representation
   seller_id?: string;
   agent_id?: string;
+  owners_fullnames?: string; // ',' delimited string of owner full names from tax assessor data
   // Sales and net proceeds basis information
   asking_price?: number;
   goal_price?: number;

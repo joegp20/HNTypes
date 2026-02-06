@@ -199,6 +199,8 @@ export interface PropertyDetails {
   tax_market_value_total?: number;
   assessland_value?: number;
   agxfertax_applies?: boolean;
+  listed?: boolean;
+  listing_status?: string;
 }
 
 export interface FindUnregisteredPropertyInfo {

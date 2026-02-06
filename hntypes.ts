@@ -176,6 +176,7 @@ export interface PropertyDetails {
   latitude?: number;
   longitude?: number;
   plat_map?: string;
+  picture_url?: string;
   // Property ownership/representation
   seller_id?: string;
   agent_id?: string;

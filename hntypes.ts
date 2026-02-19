@@ -250,8 +250,3 @@ export interface PropertyExistsResponse {
   message: string;
   searchedAddress?: PropertyAddress;
 }
-
-interface PropertyByIdResponse {
-  success: boolean;
-  property: PropertyDetails;
-}

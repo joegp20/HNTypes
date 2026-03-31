@@ -250,3 +250,12 @@ export interface PropertyExistsResponse {
   message: string;
   searchedAddress?: PropertyAddress;
 }
+
+export interface AgentInfo {
+    id?:            number | null;
+    agent_name?:    string | null;
+    firm_name?:     string | null;
+    contact_phone?: string | null;
+    contact_email?: string | null;
+    website?:       string | null;
+}

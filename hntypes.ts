@@ -1,3 +1,9 @@
+export enum hnlicense_types {
+  FREE_TRIAL_INDIVIDUAL = 1,
+  PAID_INDIVIDUAL = 2,
+  ENTERPRISE_ALLOCATION = 3
+}
+
 export enum FeeType {
   TRANSFER_TAX = 'transfer_tax',
   AGRICULTURAL_TRANSFER_TAX = 'agricultural_transfer_tax',

@@ -264,4 +264,6 @@ export interface AgentInfo {
     contact_phone?: string | null;
     contact_email?: string | null;
     website?:       string | null;
+    hn_licensetype?: number | null;
+    hn_licenseexpires?: string | null;
 }

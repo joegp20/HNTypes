@@ -220,7 +220,7 @@ export interface FindUnregisteredPropertyInfo {
   }
 }
 
-export enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_INFO = 2, PROPERTY_NOT_IN_HN_INFO_NOT_FOUND = 3, PROPERTY_EXISTS_IN_HN_OTHER_TEAM = 4 }
+export enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_INFO = 2, PROPERTY_NOT_IN_HN_INFO_NOT_FOUND = 3, PROPERTY_EXISTS_IN_HN_OTHER_TEAM = 4, PROPERTY_EXISTS_IN_HN_UNAFFILIATED = 5}
 
 export interface FindUnregisteredPropertyResponse {
   result: StatusCodes;

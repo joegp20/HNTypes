@@ -212,9 +212,15 @@ export interface PropertyDetails {
 export interface FindUnregisteredPropertyInfo {
   matchedProperty: PropertyDetails;
   url: string | null;
+  teamMembershipConflict?: {
+    team_id: number;
+    team_name: string;
+    team_admin_id: number;
+    team_admin_name: string;
+  }
 }
 
-export enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_INFO = 2, PROPERTY_NOT_IN_HN_INFO_NOT_FOUND = 3 }
+export enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_INFO = 2, PROPERTY_NOT_IN_HN_INFO_NOT_FOUND = 3, PROPERTY_EXISTS_IN_HN_OTHER_TEAM = 4 }
 
 export interface FindUnregisteredPropertyResponse {
   result: StatusCodes;

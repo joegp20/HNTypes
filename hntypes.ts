@@ -190,7 +190,6 @@ export interface PropertyDetails {
   // Sales and net proceeds basis information
   asking_price?: number;
   goal_price?: number;
-  sale_status?: number;
   mortgage_remaining?: number;
   adjusted_cost_basis?: number;
   tax_filing_status?: string;

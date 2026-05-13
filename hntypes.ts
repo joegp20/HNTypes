@@ -273,3 +273,38 @@ export interface AgentInfo {
     hn_licensetype?: number | null;
     hn_licenseexpires?: string | null;
 }
+
+/**
+ * ============================================================================
+ * Type Definitions: USSTATES
+ * ============================================================================
+ *
+ * Shared types for the USSTATES domain. Place this file in a shared types
+ * library (e.g., supabase/functions/_shared/types/) so it can be reused by
+ * multiple edge functions and/or client applications.
+ * ============================================================================
+ */
+
+/**
+ * Represents a single US state row as returned by the get_usstates function.
+ */
+export interface USState {
+  state: string;
+  state_postal_abbr: string;
+}
+
+/**
+ * Successful response shape returned by the get_usstates edge function.
+ */
+export interface GetUSStatesResponse {
+  success: true;
+  count: number;
+  usstates: USState[];
+}
+
+/**
+ * Error response shape returned by the get_usstates edge function.
+ */
+export interface GetUSStatesErrorResponse {
+  error: string;
+}

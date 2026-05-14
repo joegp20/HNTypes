@@ -173,6 +173,7 @@ export interface PropertyDetails {
   // Address and location fields
   address: string;
   fullstreet?: string;
+  fullstreet_primarysuffix?: string;
   city?: string;
   state?: string;
   county?: string;

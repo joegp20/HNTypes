@@ -313,7 +313,27 @@ export interface GetUSStatesErrorResponse {
 /**
  * The results returned from get_offeranalysis()
  */
-export type OfferAnalysis = Record<string, unknown>;
+
+export interface FindingItem {
+  finding_number: string;
+  Finding: string;
+  Location: string;
+  Risk: 'High' | 'Medium' | 'Low';
+  Explanation: string;
+  Recommendation: string;
+}
+
+export interface SummaryItem {
+  finding_number: string;
+  Title: string;
+  Action: string;
+  Risk: 'High' | 'Medium' | 'Low';
+}
+
+export interface OfferAnalysis {
+  findings_summary: SummaryItem[];
+  findings_details: FindingItem[];
+}
 
 /**
  * Response returned by the get_offeranalysis edge function.

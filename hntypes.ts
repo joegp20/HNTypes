@@ -350,6 +350,6 @@ export interface OfferAnalysis {
  */
 export interface OfferAnalysisResponse {
   offer_id: number;
-  status: "ready" | "processing";
+  status: "ready" | "processing" | "absent";
   analysis?: OfferAnalysis;
 }

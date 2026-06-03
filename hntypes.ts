@@ -208,6 +208,7 @@ export interface PropertyDetails {
   agxfertax_applies?: boolean;
   listed?: boolean;
   listing_agreement_end_date?: string | null;
+  listing_agreement_url?: string | null;
 }
 
 export interface FindUnregisteredPropertyInfo {

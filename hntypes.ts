@@ -358,50 +358,51 @@ export interface OfferAnalysisResponse {
 /**
  * Customer Capture Package (CCP) related types
  */
-export enum CCPType {  CCP_TYPE_TEMPLATE = 'template',
-  CCP_TYPE_PACKAGE = 'package',
+export enum CCPType {
+  CCP_TYPE_TEMPLATE = 'template',
+  CCP_TYPE_PACKAGE = 'package',
 }
 
 export enum ContentBlockType {
-  CONTENT_BLOCK_TYPE_DYNAMIC = 'dynamic',
-  CONTENT_BLOCK_TYPE_STATIC = 'static',
+  CONTENT_BLOCK_TYPE_DYNAMIC = 'dynamic',
+  CONTENT_BLOCK_TYPE_STATIC = 'static',
 }
 
 export enum TagType {
-  TAG_TYPE_TEXT = 'text',
-  TAG_TYPE_PICTURE = 'picture',
+  TAG_TYPE_TEXT = 'text',
+  TAG_TYPE_PICTURE = 'picture',
 }
 
 export interface TextTag {
-  name: string;
-  type: TagType.TAG_TYPE_TEXT;
-  value: string;
+  name: string;
+  type: TagType.TAG_TYPE_TEXT;
+  value: string;
 }
 
 export interface PictureTag {
-  name: string;
-  type: TagType.TAG_TYPE_PICTURE;
-  url_signed: string;
-  caption: string;
+  name: string;
+  type: TagType.TAG_TYPE_PICTURE;
+  url_signed: string;
+  caption: string;
 }
 
 export type Tag = TextTag | PictureTag;
 
 export interface ContentBlock {
-  number: number;
-  name: string;
-  url_signed: string;
-  type: ContentBlockType;
-  tag_limit?: number;
-  tags: Tag[];
+  number: number;
+  name: string;
+  url_signed: string;
+  type: ContentBlockType;
+  tag_limit?: number;
+  tags: Tag[];
 }
 
 export interface CCP {
-  id: number;
-  name: string;
-  type: CCPType;
-  team_id: number;
-  property_address: string;
-  prepared_for: string;
-  content_blocks: ContentBlock[];
+  id: number;
+  name: string;
+  type: CCPType;
+  team_id: number;
+  property_address: string;
+  prepared_for: string;
+  content_blocks: ContentBlock[];
 }

@@ -382,7 +382,7 @@ export interface TextTag {
 export interface PictureTag {
   name: string;
   type: TagType.TAG_TYPE_PICTURE;
-  url_signed: string;
+  url_signed_picture: string;
   caption: string;
 }
 
@@ -391,9 +391,10 @@ export type Tag = TextTag | PictureTag;
 export interface ContentBlock {
   number: number;
   name: string;
-  url_signed: string;
+  url_signed_background: string;
+  url_signed_base?: string | null;
   type: ContentBlockType;
-  tag_limit?: number;
+  tag_limit: number;
   tags: Tag[];
 }
 
@@ -404,5 +405,7 @@ export interface CCP {
   team_id: number;
   property_address: string;
   prepared_for: string;
+  url_signed_package?: string | null;
+  package_filename?: string | null;
   content_blocks: ContentBlock[];
 }

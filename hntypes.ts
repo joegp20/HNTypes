@@ -391,8 +391,8 @@ export type Tag = TextTag | PictureTag;
 export interface ContentBlock {
   number: number;
   name: string;
-  url_signed_background: string;
-  url_signed_base?: string | null;
+  url_signed_background: string | null;
+  url_signed_base?: string;
   type: ContentBlockType;
   tag_limit: number;
   tags: Tag[];

@@ -240,7 +240,7 @@ export interface RecordOfInspection {
 }
 
 export enum InspectionType {
-  HOME_INSPECTON = 1,
+  HOME_INSPECTION = 1,
   TERMITE_INSPECTION = 2,
   RADON_INSPECTION = 3,
   ROOF_INSPECTION = 4,

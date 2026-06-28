@@ -235,8 +235,20 @@ export interface RecordOfInspection {
   property_id: number;
   created_at?: string;
   updated_at?: string;
-  home_inspection_file_id: string;
+  inspection_file_id: string;
   llm_notes: Record<string, any> | null;
+}
+
+export enum InspectionType {
+  HOME_INSPECTON = 1,
+  TERMITE_INSPECTION = 2,
+  RADON_INSPECTION = 3,
+  ROOF_INSPECTION = 4,
+  SEWER_INSPECTION = 5,
+  WELL_INSPECTION = 6,
+  SEPTIC_INSPECTION = 7,
+  POOL_INSPECTION = 8,
+  OTHER_INSPECTION = 9
 }
 
 export interface RealtimeInspectionPayload {

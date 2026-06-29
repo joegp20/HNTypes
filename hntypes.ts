@@ -239,7 +239,7 @@ export interface RecordOfInspection {
   llm_notes: Record<string, any> | null;
 }
 
-export enum DocumentType {
+export enum HNDocumentType {
   HOME_INSPECTION = 1,
   TERMITE_INSPECTION = 2,
   RADON_INSPECTION = 3,

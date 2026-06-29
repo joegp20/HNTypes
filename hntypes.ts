@@ -239,7 +239,7 @@ export interface RecordOfInspection {
   llm_notes: Record<string, any> | null;
 }
 
-export enum InspectionType {
+export enum DocumentType {
   HOME_INSPECTION = 1,
   TERMITE_INSPECTION = 2,
   RADON_INSPECTION = 3,
@@ -248,7 +248,12 @@ export enum InspectionType {
   WELL_INSPECTION = 6,
   SEPTIC_INSPECTION = 7,
   POOL_INSPECTION = 8,
-  OTHER_INSPECTION = 9
+  AIR_QUALITY_INSPECTION = 9,
+  CHIMNEY_INSPECTION = 10,
+  OTHER_INSPECTION = 11,
+  OFFER = 12,
+  LISTING_AGREEMENT = 13,
+  NOT_AN_INSPECTION = 14
 }
 
 export interface RealtimeInspectionPayload {

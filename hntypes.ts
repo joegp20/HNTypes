@@ -253,7 +253,7 @@ export enum DocumentType {
   OTHER_INSPECTION = 11,
   OFFER = 12,
   LISTING_AGREEMENT = 13,
-  NOT_AN_INSPECTION = 14
+  UNKNOWN_DOCUMENT = 14
 }
 
 export interface RealtimeInspectionPayload {

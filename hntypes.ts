@@ -167,6 +167,7 @@ export interface RealtimeOfferScoringPayload {
 export interface PropertyDetails {
   // Property/property record identification
   id?: number | null;
+  sale_window_id?: number | null;
   sourced_taxassessor_id?: number | null;
   created_at?: string;
   updated_at?: string;
@@ -189,10 +190,10 @@ export interface PropertyDetails {
   team_id?: string;
   owners_fullnames?: string; // ',' delimited string of owner full names from tax assessor data
   // Sales and net proceeds basis information
-  asking_price?: number;
-  goal_price?: number;
-  mortgage_remaining?: number;
-  adjusted_cost_basis?: number;
+  asking_price?: number | null;
+  goal_price?: number | null;
+  mortgage_remaining?: number | null;
+  adjusted_cost_basis?: number | null;
   tax_filing_status?: string;
   // Property characteristics
   year_built?: string;
@@ -209,6 +210,7 @@ export interface PropertyDetails {
   listed?: boolean;
   listing_agreement_end_date?: string | null;
   listing_agreement_url?: string | null;
+  seller_context?: string | null;
 }
 
 export interface FindUnregisteredPropertyInfo {

@@ -172,7 +172,7 @@ export interface PropertyDetails {
   created_at?: string;
   updated_at?: string;
   // Address and location fields
-  address: string;
+  address?: string;
   fullstreet?: string;
   fullstreet_primarysuffix?: string;
   city?: string;

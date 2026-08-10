@@ -211,6 +211,8 @@ export interface PropertyDetails {
   listing_agreement_end_date?: string | null;
   listing_agreement_url?: string | null;
   seller_context?: string | null;
+  agent_notes?: string | null;
+  actual_settlement_date?: string | null;
 }
 
 export interface FindUnregisteredPropertyInfo {

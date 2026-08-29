@@ -419,6 +419,21 @@ export interface AssemblyEstimate {
   /** Total estimated assembly time, in seconds. */
   estimatedTimeToAssemble: number;
 }
+/**
+ * Response returned by the ccp_create_update edge function.
+ *
+ * `assembly` and `assembly_estimate` are only populated when the CCP is a
+ * 'package' AND the downstream assembly job was successfully created. For
+ * templates, or when assembly could not be kicked off, both are null.
+ */
+export interface CCPCreateUpdateResponse {
+  success: true;
+  action: 'created' | 'updated';
+  populate_summary: Record<string, unknown> | null;
+  assembly: Record<string, unknown> | null;
+  assembly_estimate: AssemblyEstimate | null;
+  ccp: CCP;
+}
 
 export interface PictureTag {
   name: string;

@@ -436,11 +436,11 @@ export interface CCPCreateUpdateResponse {
 }
 
 export interface PictureTag {
-  name: string;
-  type: TagType.TAG_TYPE_PICTURE;
-  url_signed_picture: string;
-  caption: string;
-}
+    name: string;
+    type: TagType.TAG_TYPE_PICTURE;
+    urlImage: string;
+    captionStats: string;
+  }
 
 export type Tag = TextTag | PictureTag;
 

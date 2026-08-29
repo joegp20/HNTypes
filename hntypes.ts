@@ -399,6 +399,27 @@ export interface TextTag {
   value: string;
 }
 
+/**
+ * Estimate of how long a CCP package assembly job will take, returned by the
+ * ccp_create_update edge function when (and only when) a package assembly job
+ * was successfully created and submitted.
+ *
+ * This is currently a rough computation: a fixed per-block time budget for
+ * static blocks and a larger fixed budget for dynamic blocks. In the future
+ * this is expected to become a heuristic based on historical package
+ * composition vs. actual time-to-complete.
+ *
+ * NOTE: `estimatedTimeToAssemble` is expressed in WHOLE SECONDS.
+ */
+export interface AssemblyEstimate {
+  /** Number of static content blocks counted toward the estimate. */
+  staticBlocksToBuild: number;
+  /** Number of dynamic content blocks counted toward the estimate. */
+  dynamicBlocksToBuild: number;
+  /** Total estimated assembly time, in seconds. */
+  estimatedTimeToAssemble: number;
+}
+
 export interface PictureTag {
   name: string;
   type: TagType.TAG_TYPE_PICTURE;

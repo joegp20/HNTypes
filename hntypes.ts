@@ -215,15 +215,25 @@ export interface PropertyDetails {
   actual_settlement_date?: string | null;
 }
 
+export interface CotalityFoundAddress {
+  address_label: string;
+  address_fullstreet: string;
+  address_city: string;
+  address_state: string;
+  address_county: string;
+  address_zipcode: string;
+}
+
 export interface FindUnregisteredPropertyInfo {
   matchedProperty: PropertyDetails;
   url: string | null;
+  cotalityFoundAddress?: CotalityFoundAddress | null;
   teamMembershipConflict?: {
     team_id: number;
     team_name: string;
     team_admin_id: number;
     team_admin_name: string;
-  }
+  };
 }
 
 export enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_INFO = 2, PROPERTY_NOT_IN_HN_INFO_NOT_FOUND = 3, PROPERTY_EXISTS_IN_HN_OTHER_TEAM = 4, PROPERTY_EXISTS_IN_HN_UNAFFILIATED = 5}

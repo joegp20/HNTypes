@@ -475,3 +475,15 @@ export interface CCP {
   package_filename?: string | null;
   content_blocks: ContentBlock[];
 }
+
+/**
+ * Document processing order provided by watchfordocs after incoming document analysis.
+ * This enum value is added to the filename for .pdf, .txt or .png files to indicate which
+ * file or files are to be sent to the LLM for processing. filename_1.txt for example.
+ */
+export enum DocumentProcessingOrder {
+  DOCUMENT_PROCESSON_TXT = 1,
+  DOCUMENT_PROCESSON_PDF = 2,
+  DOCUMENT_PROCESSON_PNG = 3,
+  DOCUMENT_PROCESSON_TXTPDF = 4
+}

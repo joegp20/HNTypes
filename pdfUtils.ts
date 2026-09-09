@@ -150,3 +150,31 @@ export function extractProcessingOrderFromFileName(
 
   return order as DocumentProcessingOrder;
 }
+
+/**
+ * Tolerant, NON-THROWING variant for use by the storage-registration handlers
+ * (offers / listing agreements / inspection reports).
+ *
+ * Registration is a basic task that must never bomb: whatever trailing
+ * "_<digits>" order is found in the filename is returned as-is — INCLUDING
+ * currently-unsupported values like 3 or 4, or any other integer. Unsupported
+ * modes are rejected later, deeper in the pipeline.
+ *
+ * If no numeric suffix is present, returns `fallback` (default 1, matching the
+ * OFFER_FILES / INSPECTION_FILES column default).
+ *
+ * Extraction logic is IDENTICAL to extractProcessingOrderFromFileName; the two
+ * differ ONLY in strictness (throw vs. tolerate), so both parse the same
+ * integer from the same filename — consistent by construction.
+ */
+export function parseProcessingOrderLenient(
+  fileName: string,
+  fallback = 1,
+): number {
+  const withoutExt = fileName.replace(/\.[^.]+$/, "");
+  const match = withoutExt.match(/_(\d+)$/);
+  if (!match) {
+    return fallback;
+  }
+  return parseInt(match[1], 10);
+}

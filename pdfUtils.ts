@@ -114,7 +114,10 @@ export async function signDerivedPdfUrl(txtSignedUrl: string): Promise<string> {
  *   "1809Kingsforest_Gump_1.txt" -> 1
  *   "Highway_101_2.pdf"          -> 2
  *
- * Recognized values are validated against DocumentProcessingOrder.
+ * If no properly formatted "_<order>" suffix is found, or the suffix is not
+ * a recognized DocumentProcessingOrder value, this returns 1
+ * (DOCUMENT_PROCESSON_TXT) as the default.
+ *
  * Orders 3 (PNG) and 4 (TXTPDF) are recognized but not yet supported and
  * will throw an explicit "not yet supported" error.
  */
@@ -124,18 +127,15 @@ export function extractProcessingOrderFromFileName(
   const withoutExt = fileName.replace(/\.[^.]+$/, "");
   const match = withoutExt.match(/_(\d+)$/);
   if (!match) {
-    throw new Error(
-      `Could not extract processing order from filename: ${fileName}`,
-    );
+    // No properly formatted processing order found; default to 1 (TXT).
+    return DocumentProcessingOrder.DOCUMENT_PROCESSON_TXT;
   }
 
   const order = parseInt(match[1], 10);
 
-  // Must be a recognized DocumentProcessingOrder enum value at all.
+  // Not a recognized DocumentProcessingOrder enum value; default to 1 (TXT).
   if (!VALID_PROCESSING_ORDERS.has(order)) {
-    throw new Error(
-      `Unrecognized processing order ${order} in filename: ${fileName}`,
-    );
+    return DocumentProcessingOrder.DOCUMENT_PROCESSON_TXT;
   }
 
   // Recognized, but only 1 (TXT) and 2 (PDF) are implemented so far.

@@ -241,6 +241,7 @@ export enum StatusCodes { PROPERTY_EXISTS_IN_HN = 1, PROPERTY_NOT_IN_HN_FOUND_IN
 export interface FindUnregisteredPropertyResponse {
   result: StatusCodes;
   data: FindUnregisteredPropertyInfo;
+  cotalityAvailable?: boolean;
 }
 
 // Line item interface

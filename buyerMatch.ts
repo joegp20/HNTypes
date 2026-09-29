@@ -41,9 +41,9 @@ export interface MatchOptions {
 //     no_incoming_names outcome).
 //
 // Examples:
-//   "Zach Fancy & Kelly Fancy"  → ["zach fancy","kelly fancy"] → sort → "kelly fancy|zach fancy"
-//   "Kelly Fancy, Zach Fancy"   → ["kelly fancy","zach fancy"] → sort → "kelly fancy|zach fancy"
-//   Both yield "kelly fancy|zach fancy" ✅ — order-independent, as required.
+//   "Zach Fancy & Kelly Fancy"  → ["zach fancy","kelly fancy"] → sort → "kelly fancy_zach fancy"
+//   "Kelly Fancy, Zach Fancy"   → ["kelly fancy","zach fancy"] → sort → "kelly fancy_zach fancy"
+//   Both yield "kelly fancy_zach fancy" ✅ — order-independent, as required.
 //   "Zach Fancy Jr."            → ["zach fancy"] → "zach fancy" (suffix stripped)
 //   ""  /  "   "                → null (no usable names → no lineage key)
 //
@@ -51,9 +51,9 @@ export interface MatchOptions {
 // does NOT reorder within a single name. So "Zach Fancy" normalizes to
 // "zach fancy" (NOT "fancy zach"). The SET members are the whole normalized
 // names; sorting orders the MEMBERS, not the words inside a name. Correct output:
-//   "Zach Fancy & Kelly Fancy" → ["zach fancy","kelly fancy"] → sort → "kelly fancy|zach fancy"
-//   "Kelly Fancy, Zach Fancy"  → ["kelly fancy","zach fancy"] → sort → "kelly fancy|zach fancy"
-// Both yield "kelly fancy|zach fancy" ✅ — order-independent, as required.
+//   "Zach Fancy & Kelly Fancy" → ["zach fancy","kelly fancy"] → sort → "kelly fancy_zach fancy"
+//   "Kelly Fancy, Zach Fancy"  → ["kelly fancy","zach fancy"] → sort → "kelly fancy_zach fancy"
+// Both yield "kelly fancy_zach fancy" ✅ — order-independent, as required.
 // ─────────────────────────────────────────────
 export function buyerSetKey(
   raw: string | null | undefined,
@@ -61,7 +61,7 @@ export function buyerSetKey(
 ): string | null {
   const { set } = extractNameSet(raw, opts);
   if (!set.size) return null;
-  return [...set].sort().join('|');
+  return [...set].sort().join('_');
 }
 
 // ─────────────────────────────────────────────

@@ -178,3 +178,33 @@ export function parseProcessingOrderLenient(
   }
   return parseInt(match[1], 10);
 }
+
+// Determine remote file size WITHOUT downloading the body.
+//   1) HEAD → Content-Length
+//   2) Fallback: GET Range bytes=0-0 → Content-Range total (body cancelled)
+// Returns null if size can't be determined (caller proceeds; Anthropic enforces).
+export async function getRemoteContentLength(url: string): Promise<number | null> {
+  try {
+    const head = await fetch(url, { method: 'HEAD' });
+    if (head.ok) {
+      const len = head.headers.get('content-length');
+      if (len && /^\d+$/.test(len)) return Number(len);
+    }
+  } catch (_) { /* fall through to Range */ }
+
+  try {
+    const res = await fetch(url, { headers: { Range: 'bytes=0-0' } });
+    const contentRange = res.headers.get('content-range'); // "bytes 0-0/68157440"
+    const contentLength = res.headers.get('content-length');
+    await res.body?.cancel(); // never read the body
+    if (contentRange) {
+      const m = contentRange.match(/\/(\d+)\s*$/);
+      if (m) return Number(m[1]);
+    }
+    if (res.status === 200 && contentLength && /^\d+$/.test(contentLength)) {
+      return Number(contentLength);
+    }
+  } catch (_) { /* unknown */ }
+
+  return null;
+}

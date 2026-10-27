@@ -6,7 +6,7 @@ const STATE_ZIP_RE = /^([A-Z]{2})(?:\s+(\d{5}(?:-\d{4})?))?$/i;
  * ZIP is optional: address_zipcode = '' when absent.
  * A partial/garbled ZIP fails the regex and throws.
  */
-export function parseAddressLabel(addressLabel: string): Partial<PropertyAddress> {
+export function parseInspectionAddressLabel(addressLabel: string): Partial<PropertyAddress> {
   const parts = (addressLabel ?? '')
     .trim()
     .split(',')

@@ -17,6 +17,15 @@
 //      safe for long-parked lineage items and DLQ replays.
 //   2. Fallback: fetch url_signed (inspection behaviour).
 //
+// CLEANUP:
+//   • cleanupJpegArtifacts(list)      — caller already holds the list (same run
+//                                       that loaded the JPEG set).
+//   • cleanupJpegsForRecord(record)   — caller does NOT hold the list (e.g. the
+//                                       offer release handler, days after the
+//                                       TOC worker); re-reads the manifest.
+//   Both NEVER throw. Only relative .jpg/.jpeg paths are ever deleted, so
+//   cleanup can never remove PDFs or trigger .txt files.
+//
 // ⚠️ MODULE IDENTITY: this file imports ./terminalerror.ts relatively. Workers
 // MUST import terminalerror.ts and jpegUtils.ts from the SAME ref (both `main`,
 // or both the same commit SHA). Mixing refs loads two TerminalError classes and
@@ -62,8 +71,8 @@ export type JpegManifest = {
   page_count: number;
   pages: JpegManifestPage[];
 };
-export type JpegPage    = { page: number; name: string; url: string };
-export type JpegCleanup = { bucket: string; paths: string[] };
+export type JpegPage      = { page: number; name: string; url: string };
+export type JpegCleanup   = { bucket: string; paths: string[] };
 export type LoadedJpegSet = { pages: JpegPage[]; cleanup: JpegCleanup };
 
 // ─── Prepared input (what workers spread into `content`) ───────────────────
@@ -140,7 +149,7 @@ export function assertSupportedDirective(raw: unknown, label: string): number {
       `unsupported_processing_directive_${d} (${label}) — only PDF(2)/JPEG(3) are supported (TXT(1) retired)`
     );
   }
-  return d;
+  return d as number;
 }
 
 // ─── PDF path ──────────────────────────────────────────────────────────────
@@ -185,7 +194,7 @@ async function preparePdfInput(
   };
 }
 
-// ─── JPEG path ─────────────────────────────────────────────────────────────
+// ─── JPEG path: manifest read + validation ─────────────────────────────────
 async function readManifestText(
   supabase: SupabaseClient, rec: DocumentSourceRecord, label: string,
 ): Promise<string> {
@@ -212,6 +221,7 @@ async function readManifestText(
   return await resp.text();
 }
 
+// Structure + safe names. Shared by the LLM path and the cleanup path.
 function parseAndValidateManifest(
   rawText: string, rec: DocumentSourceRecord, label: string,
 ): { manifest: JpegManifest; sorted: JpegManifestPage[] } {
@@ -248,7 +258,6 @@ function parseAndValidateManifest(
   }
 
   const sorted = [...m.pages].sort((a, b) => a.page - b.page);
-  let missingDims = 0;
   sorted.forEach((p, i) => {
     if (p.page !== i + 1) {
       throw new TerminalError(`JPEG manifest pages not contiguous: expected page ${i + 1}, got ${p.page}`);
@@ -259,36 +268,44 @@ function parseAndValidateManifest(
         `(must be a relative .jpg/.jpeg path, no leading "/" or "..")`
       );
     }
-    // >20 images → per-side pixel limit. Enforced only if AWS supplies dims.
-    if (m.page_count > MANY_IMAGES_THRESHOLD) {
-      if (Number.isFinite(p.width) && Number.isFinite(p.height)) {
-        const maxSide = Math.max(p.width as number, p.height as number);
-        if (maxSide > MANY_IMAGES_MAX_PX) {
-          throw new TerminalError(
-            `jpeg_page_too_large: page ${p.page} is ${p.width}x${p.height}; requests with ` +
-            `>${MANY_IMAGES_THRESHOLD} images require ≤${MANY_IMAGES_MAX_PX}px per side — re-render (pdftoppm -scale-to 1568)`
-          );
-        }
-      } else {
-        missingDims++;
-      }
-    }
   });
+
+  return { manifest: m, sorted };
+}
+
+// >20 images → per-side pixel limit. Enforced only if AWS supplies width/height.
+// LLM path only (never runs during cleanup).
+function checkPixelLimits(m: JpegManifest, sorted: JpegManifestPage[], label: string): void {
+  if (m.page_count <= MANY_IMAGES_THRESHOLD) return;
+  let missingDims = 0;
+  for (const p of sorted) {
+    if (Number.isFinite(p.width) && Number.isFinite(p.height)) {
+      const maxSide = Math.max(p.width as number, p.height as number);
+      if (maxSide > MANY_IMAGES_MAX_PX) {
+        throw new TerminalError(
+          `jpeg_page_too_large: page ${p.page} is ${p.width}x${p.height}; requests with ` +
+          `>${MANY_IMAGES_THRESHOLD} images require ≤${MANY_IMAGES_MAX_PX}px per side — re-render (pdftoppm -scale-to 1568)`
+        );
+      }
+    } else {
+      missingDims++;
+    }
+  }
   if (missingDims > 0) {
     console.warn(
       `[${label}] ⚠️ ${m.page_count} pages (>${MANY_IMAGES_THRESHOLD}) but ${missingDims} page(s) lack width/height — ` +
       `cannot pre-check the ${MANY_IMAGES_MAX_PX}px limit`
     );
   }
-
-  return { manifest: m, sorted };
 }
 
+// ─── JPEG path: load + sign ────────────────────────────────────────────────
 export async function loadJpegSet(
   supabase: SupabaseClient, rec: DocumentSourceRecord, label: string, ttlSeconds: number,
 ): Promise<LoadedJpegSet> {
   const text = await readManifestText(supabase, rec, label);
   const { manifest: m, sorted } = parseAndValidateManifest(text, rec, label);
+  checkPixelLimits(m, sorted, label);
 
   const paths = sorted.map(p => p.name);
   const { data: signed, error: signErr } = await supabase.storage
@@ -365,8 +382,9 @@ export function logLlmMetrics(args: {
   }
 }
 
-// ─── Cleanup (best-effort, NEVER throws) ───────────────────────────────────
-// Only .jpg/.jpeg paths are deleted; trigger .txt and PDFs are never touched.
+// ─── Cleanup ───────────────────────────────────────────────────────────────
+
+// Delete a known list. NEVER throws.
 export async function cleanupJpegArtifacts(
   supabase: SupabaseClient, cleanup: JpegCleanup, label: string,
 ): Promise<void> {
@@ -395,4 +413,29 @@ export async function cleanupJpegArtifacts(
   } catch (e) {
     console.warn(`[${label}] ⚠️ JPEG cleanup error: ${(e as Error).message}`);
   }
+}
+
+// Re-read + validate the manifest to recover the cleanup list (no signing, no
+// pixel check). Returns null for non-JPEG rows or on ANY failure. NEVER throws.
+export async function loadJpegCleanupList(
+  supabase: SupabaseClient, rec: DocumentSourceRecord, label: string,
+): Promise<JpegCleanup | null> {
+  try {
+    if (rec.document_processing_directive !== DIRECTIVE_JPEG) return null;
+    const text = await readManifestText(supabase, rec, label);
+    const { manifest, sorted } = parseAndValidateManifest(text, rec, label);
+    return { bucket: manifest.bucket, paths: sorted.map(p => p.name) };
+  } catch (e) {
+    console.warn(`[${label}] ⚠️ could not load JPEG cleanup list — left for sweep: ${(e as Error).message}`);
+    return null;
+  }
+}
+
+// For callers that don't hold the list (e.g. offer release handler after
+// order_assembly ORDERED). No-op for PDF rows. NEVER throws.
+export async function cleanupJpegsForRecord(
+  supabase: SupabaseClient, rec: DocumentSourceRecord, label: string,
+): Promise<void> {
+  const list = await loadJpegCleanupList(supabase, rec, label);
+  if (list) await cleanupJpegArtifacts(supabase, list, label);
 }
